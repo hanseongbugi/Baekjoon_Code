@@ -1,39 +1,47 @@
 #include <iostream>
-#define MAX 
+#include <algorithm>
+
 using namespace std;
 
-int main(){
-    int K, N;
-    long long start = 1, end, mid, sum = 0, total, max = -1;
-    cin >> K >> N;
+unsigned int ans;
+unsigned int list[10000];
 
-    int length[K];
+int main()
+{
+    unsigned int N,K;
+	cin >> K >> N;
+    
+	unsigned int maxi = 0;
+    
+	for (int i = 0; i < K; i++)
+	{
+		cin >> list[i];
+		maxi = max(maxi, list[i]);
+	}
 
-    for(int i = 0 ; i < K ; i++){
-        cin >> length[i];
-        sum += length[i];
-    }
+	unsigned int left = 1, right = maxi, mid;
+	
+	while (left <= right)
+	{
+		mid = (left + right) / 2;
+        
+		unsigned int now = 0; 
+        
+		for (int i = 0; i < K; i++)
+		{
+			now += list[i] / mid;
+		}
 
-    end = sum / N; 
-
-    while(start <= end){
-        total = 0;
-        mid = (start + end) / 2;
-
-        for(int i = 0 ; i < K ; i++){
-            total += length[i] / mid;
-        }
-
-        if(total >= N){
-            start = mid + 1;
-            if(mid > max) max = mid;
-        }
-        else{
-            end = mid - 1;
-        }
-    }
-
-    cout << max;
-
-    return 0;
+		if (now >= N)
+		{
+			left = mid + 1;
+			ans = max(ans, mid);
+		}
+		else
+		{
+			right = mid - 1;
+		}
+	}
+	
+	cout << ans << '\n';
 }
