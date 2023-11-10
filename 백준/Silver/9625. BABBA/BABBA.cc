@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 int K;
-int dp[46][46];
+int dp[46][2];
 
 int main() {
 	cin >> K;
