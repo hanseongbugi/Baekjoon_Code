@@ -17,11 +17,11 @@ int main() {
 		cin >> arr[i];
 
 	int start=0, end=0;
-	int counter = (arr[start] & 1) ? 1 : 0;
+	int counter = (arr[start] %2 !=0) ? 1 : 0;
 	
 	while (true) {
 		while (end < N - 1) {
-			if (arr[end + 1] & 1) {
+			if (arr[end + 1] %2 != 0) {
 				if (counter < K)counter++;
 				else break;
 			}
@@ -31,7 +31,7 @@ int main() {
 		if (start > N || end > N)break;
 		result = max(result, end - start + 1 - counter);
 
-		if (arr[start] & 1)counter--;
+		if (arr[start] %2 != 0)counter--;
 		start++;
 	}
 	cout << result << '\n';
