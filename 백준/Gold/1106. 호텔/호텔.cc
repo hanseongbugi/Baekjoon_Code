@@ -28,7 +28,7 @@ int main() {
        }
        if(C<=dp[i]){
             cout<<i<<'\n';
-            return 0;
+            break;
        }
     }
     
