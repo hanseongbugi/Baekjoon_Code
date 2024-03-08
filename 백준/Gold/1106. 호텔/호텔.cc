@@ -13,23 +13,25 @@ int main() {
 	
     cin>> C >> N;
     
-    for(int i = 1;i<=N;i++)
+    for(int i = 0;i<N;i++)
         cin>>arr[i].first>>arr[i].second;
 
     
-    for(int i = 1;i<=N;i++){
-        for(int j = 1;j<=100000;j++){
-            if(j-arr[i].first >= 0){
-                dp[j] = max(dp[j], dp[j-arr[i].first] + arr[i].second);
-            }
-        }
-    }
     for(int i = 1;i<=100000;i++){
-        if(dp[i]>=C){
+       for(int j = 0;j<N;j++){
+            if(i%arr[j].first == 0){
+                dp[i] = max(dp[i], (i/arr[j].first)*arr[j].second);
+            }
+            if(i-arr[j].first >= 0){
+                dp[i] = max(dp[i], dp[i-arr[j].first] + arr[j].second);
+            }
+       }
+       if(C<=dp[i]){
             cout<<i<<'\n';
-            break;
-        }
+            return 0;
+       }
     }
+    
     
     return 0;
 }
