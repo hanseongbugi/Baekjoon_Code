@@ -6,20 +6,6 @@ int N, K;
 int arr[5001];
 bool dp[5001];
 
-void dfs(int rock){
-    if(rock == N){
-        dp[rock] = true;
-        return;
-    }
-    if(dp[rock]) return;
-
-    dp[rock] = true;
-    for(int i = rock + 1;i<=N;i++){
-        if((i-rock) * (1 + abs(arr[rock - 1] - arr[i - 1]))<=K)
-            dfs(i);
-    }
-}
-
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
