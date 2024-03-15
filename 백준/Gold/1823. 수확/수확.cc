@@ -6,14 +6,14 @@ int N;
 int rice[2001];
 int dp[2001][2001];
 
-int slove(int start, int end, int counter){
+int solve(int start, int end, int counter){
     if(start > end) return 0;
 
     if(dp[start][end])
         return dp[start][end];
     
-    return dp[start][end] = max(slove(start+1, end, counter + 1)+ rice[start] * counter,
-        slove(start, end-1,counter + 1) + rice[end] * counter);
+    return dp[start][end] = max(solve(start+1, end, counter + 1)+ rice[start] * counter,
+        solve(start, end-1,counter + 1) + rice[end] * counter);
 }
  
 int main() {
@@ -24,5 +24,5 @@ int main() {
     for(int i = 0;i<N;i++)
         cin>>rice[i];
 
-    cout<<slove(0, N - 1, 1)<<'\n';
+    cout<<solve(0, N - 1, 1)<<'\n';
 }
