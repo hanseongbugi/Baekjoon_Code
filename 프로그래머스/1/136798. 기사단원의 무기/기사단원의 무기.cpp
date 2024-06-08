@@ -3,8 +3,6 @@
 
 using namespace std;
 
-int dp[100001];
-
 int calc(int n){
     int num = 0;
     for(int i = 1;i<=n/2;i++){
@@ -16,12 +14,9 @@ int calc(int n){
 
 int solution(int number, int limit, int power) {
     int answer = 0;
-    for(int i = 1;i<=100000;i++){
-        dp[i] = calc(i);
-    }
     
     for(int i = 1;i<=number;i++){
-        int sword = dp[i];
+        int sword = calc(i);
         if(sword > limit)
             sword = power;
         
