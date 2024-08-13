@@ -11,11 +11,11 @@ int main(){
     cin>>L;
     cin>>str;
     long long hashNum = 0;
-    for(int i = 0;i<str.length();i++){
+    for(int i = 0;i<L;i++){
         char c = str[i];
-     
-        hashNum += ((int)c - 'a' + 1) * r % M;
-        r *= 31;
+        long long hash = c - 96;
+        hashNum = (hashNum + hash * r) % M;
+        r = (r * 31) % M;
     }
     cout<<hashNum<<'\n';
 }
