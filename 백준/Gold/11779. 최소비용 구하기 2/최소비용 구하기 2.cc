@@ -3,78 +3,68 @@
 #include <queue>
 using namespace std;
 
-int cnt = 0;
+#define INF 2000000000;
 
-
+int N, M;
+int st, en;
 int dist[1001];
-int before_val[1001] = { 0, };
-vector <pair<int, int>> vec[1001];
-int n, m, s, e; // 도시 개수, 버스의 개수, 출발지, 도착지 
+int route[1001];
+vector<pair<int,int>> graph[1001];
+vector<int> answer;
 
-void dijkstra() {
+void dijk(){
+    // dist 배열 초기화
+    for(int i = 0;i<=N;i++)
+        dist[i] = INF;
+    
+    priority_queue<pair<int, int>> pq;
 
-	priority_queue <pair<int, int>> pq;
-	pq.push(make_pair(0, s));
-	dist[s] = 0; 
-	while (!pq.empty()) {
+    pq.push({0, st});
+    dist[st] = 0;
+    
+    while(!pq.empty()){
+        int cost = -pq.top().first;
+        int now = pq.top().second;
 
-		int cost = - pq.top().first;
-		int cur = pq.top().second;
-		pq.pop();
+        pq.pop();
+        if(dist[now] < cost)
+            continue;
+        for(int i = 0;i<graph[now].size();i++){
+            int next = graph[now][i].first;
+            int nCost = graph[now][i].second + cost;
 
-		if (cost > dist[cur])
-			continue;
-
-		for (int i = 0; i < vec[cur].size(); i++) {
-			int ncost = vec[cur][i].second;
-			int ncur = vec[cur][i].first;
-
-		
-			if (dist[ncur] > cost + ncost) {
-				dist[ncur] = ncost + cost;
-				pq.push(make_pair(-dist[ncur], ncur));
-				before_val[ncur] = cur;
-			}
-		}
-
-
-
-	}
-
+            if(nCost < dist[next]){
+                route[next] = now;
+                dist[next] = nCost;
+                pq.push({-nCost, next});
+            }
+        }
+    }
 }
 
-int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0), cout.tie(0);
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 
-	cin >> n >> m;
+    cin>>N>>M;
+    int a, b, c;
+    for(int i =0;i<M;i++){
+        cin>>a>>b>>c;
+        graph[a].push_back({b, c});
+    }
+    cin>>st>>en;
 
-	for (int i = 1; i <= n; i++)
-		dist[i] = 2000000000;
+    dijk();
+    cout<<dist[en]<<'\n';
 
-	for (int i = 0; i < m; i++) {
-		int a, b, c;
-		cin >> a >> b >> c;
-		vec[a].push_back(make_pair(b, c));
-	}
-
-	cin >> s >> e;
-	dijkstra();
-
-	vector <int> arr;
-	arr.push_back(e);
-	int val = before_val[e];
-	while (val) {
-		arr.push_back(val);
-		val = before_val[val];
-	}
-	
-	cout << dist[e] << endl;
-	cout << arr.size() << endl;
-	for (int i = arr.size() - 1; i >= 0; i--) {
-		cout << arr[i] << " ";
-	}
-	cout << endl;
-
-	return 0;
-}
+    int temp = en;
+    while(temp){
+        answer.push_back(temp);
+        temp = route[temp];
+    }
+    cout<<answer.size()<<'\n';
+    for(int i = answer.size() - 1;i>=0;i--)
+        cout<<answer[i]<<' ';
+    
+}   
